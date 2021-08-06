@@ -5,9 +5,11 @@ import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
 
 import static Utils.RandomData.getRandomInt;
 import static com.codeborne.selenide.Selenide.*;
+import static com.codeborne.selenide.WebDriverRunner.getAndCheckWebDriver;
 
 public class ProspectPage {
 
@@ -29,8 +31,8 @@ public class ProspectPage {
     ElementsCollection listElements = $$x("//li[@class='aside__item-relative']");
     ElementsCollection folderElements = $$x("//li[@class='folder-box']");
     ElementsCollection folderContextMenu = $$(".folder-box >* .control");
-    SelenideElement deleteButton = $("//ul[@class='control__drop']/li[2]");
-
+    ElementsCollection dropDownElements = $$(".folder-box >* .control__drop li");
+    WebDriver d;
 
     public void createNewList() {
         addNewList.click();
@@ -60,8 +62,8 @@ public class ProspectPage {
     public void deleteFolder() {
         if (folderElements.size() > 0)
             folderContextMenu.first().click();
-        deleteButton.click();
-
+        dropDownElements.filterBy(Condition.exactText("Delete folder")).first().click();
+        d = webdriver().driver().getWebDriver();
         Selenide.sleep(3000);
 
 

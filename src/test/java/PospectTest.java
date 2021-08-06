@@ -1,6 +1,9 @@
 import Pages.LoginPage;
 import Pages.ProspectPage;
 import org.junit.Test;
+import org.openqa.selenium.WebDriver;
+
+import static com.codeborne.selenide.WebDriverRunner.getAndCheckWebDriver;
 
 public class PospectTest {
 
@@ -30,6 +33,8 @@ public class PospectTest {
                 .login();
         new ProspectPage()
                 .deleteFolder();
-
+        WebDriver driver = getAndCheckWebDriver();
+        System.out.println(driver);
     }
+
 }
