@@ -10,12 +10,14 @@ import org.openqa.selenium.WebDriver;
 import static Utils.RandomData.getRandomInt;
 import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.WebDriverRunner.getAndCheckWebDriver;
+import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 
 public class ProspectPage {
 
 
     SelenideElement createFolderButton = $x("//div[@data-test='aside-create-folder']");
     SelenideElement createFolderModalTitle = $x("//p[text()='Create a new folder']");
+    SelenideElement deleteFolderModalTitle = $x("//p[text()='Confirm deletion']");
 
     SelenideElement addNewList = $x("//button[@data-test='aside-create-new-lists']");
     SelenideElement myListsDropDow = $x("//span[@class='name']");
@@ -25,6 +27,7 @@ public class ProspectPage {
     SelenideElement exportButton = $x("//div[@data-test='export-prospects-button']");
     SelenideElement dublicateButton = $x("//div[@data-test='filter-duplicates']");
     SelenideElement createButton = $x("//span[text()='Create']");
+    SelenideElement confirmButton = $x("//span[text()='Confirm']");
     SelenideElement nameField = $x("//input[@id='createNewList']");
     SelenideElement createListModalTitle = $x("//p[text()='Create a new prospects list']");
 
@@ -42,6 +45,7 @@ public class ProspectPage {
         nameField.setValue(listNameText);
         createButton.click();
         listElements.findBy(Condition.text(listNameText)).scrollIntoView(true).click();
+        getWebDriver().quit();
     }
 
 
@@ -53,8 +57,7 @@ public class ProspectPage {
         nameField.setValue(folderNameText);
         createButton.click();
         folderElements.findBy(Condition.text(folderNameText)).scrollIntoView(true).click();
-
-        Selenide.sleep(3000);
+        getWebDriver().quit();
 
     }
 
@@ -63,8 +66,10 @@ public class ProspectPage {
         if (folderElements.size() > 0)
             folderContextMenu.first().click();
         dropDownElements.filterBy(Condition.exactText("Delete folder")).first().click();
-        d = webdriver().driver().getWebDriver();
-        Selenide.sleep(3000);
+        deleteFolderModalTitle.shouldBe(Condition.visible);
+        confirmButton.click();
+        getWebDriver().quit();
+
 
 
     }
